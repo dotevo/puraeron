@@ -1,5 +1,5 @@
 import express from 'express'
-import {Measurement} from './models'
+import {Measurement, Device} from './models'
 
 export default () => {
 	const router = express.Router()
@@ -25,18 +25,27 @@ export default () => {
 	})
 
 	router.post('/', (req, res) => {
-		let measurement = new Measurement()
-		measurement.date = req.body.date
-		measurement.values = req.body.values
-		measurement.device = req.body.device
-		measurement.loc = req.body.loc
-		measurement.save((err) => {
-			if (err) {
+		Device.findOne({_id: req.body.device, password: req.body.password}, (err, device) => {
+			if (device == null) {
+				res.send({error: 'Device not found'})
+			} else if (err) {
 				res.send(err)
 			} else {
-				res.json(measurement)
+				let measurement = new Measurement()
+				measurement.date = req.body.date
+				measurement.values = req.body.values
+				measurement.device = req.body.device
+				measurement.loc = req.body.loc
+				measurement.save((err) => {
+					if (err) {
+						res.send(err)
+					} else {
+						res.json(measurement)
+					}
+				})
 			}
 		})
+
 	})
 
 	//TODO: PUT, DELETE

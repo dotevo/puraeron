@@ -12,5 +12,18 @@ export default () => {
 			}
 		})
 	})
+
+	router.post('/', (req, res) => {
+		let user = new User()
+		user.name = req.body.name
+		user.password = req.body.password
+		user.save((err) => {
+			if (err) {
+				res.send(err)
+			} else {
+				res.json(user)
+			}
+		})
+	})
 	return router
 }

@@ -7,7 +7,8 @@ export const User = mongoose.model('User', new mongoose.Schema({
 	},
 	password: {
 		type: String,
-		required: true
+		required: true,
+		select: false
 	}
 }))
 
@@ -15,6 +16,11 @@ export const Device = mongoose.model('Device', new mongoose.Schema({
 	owner: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'User'
+	},
+	password: {
+		type: String,
+		required: true,
+		select: false
 	}
 }))
 
