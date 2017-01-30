@@ -1,0 +1,26 @@
+{
+    "parser": "babel-eslint",
+    "rules": {
+        "strict": 0,
+        "indent": [
+            2,
+            "tab"
+        ],
+        "no-console": 0
+    },
+    "env": {
+        "es6": true
+    },
+    "globals": {
+        "__dirname": true,
+        "process": true,
+        "console": true,
+        "L": true,
+        "$": true,
+        "document": true,
+        "window": true,
+        "map": true,
+        "scroll": true
+    },
+    "extends": "eslint:recommended"
+}
