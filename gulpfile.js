@@ -81,6 +81,9 @@ gulp.task('frontend:watch', () => {
 })
 
 /* FULL TASKS */
+gulp.task('lint', ['backend:lint', 'frontend:lint'], function() {
+})
+
 gulp.task('watch', ['backend:watch', 'frontend:watch'], function() {
 })
 

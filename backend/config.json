@@ -1,4 +1,5 @@
 {
 	"port": 3333,
-	"db": "mongodb://localhost:27017/aero2"
+	"db": "mongodb://localhost:27017/aero2",
+	"session": "10101010"
 }

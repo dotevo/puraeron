@@ -6,6 +6,7 @@ import bodyParser from 'body-parser'
 
 import routes from './routes'
 import config from './config.json'
+import session from 'express-session'
 
 mongoose.connect(config.db, {server: {socketOptions: {keepAlive: 1}}})
 mongoose.connection.on('error', () => {
@@ -16,6 +17,13 @@ let env = {path: __dirname}
 
 const app = express()
 app.server = http.createServer(app)
+
+app.use(session({
+	secret: config.session,
+	resave: true,
+	saveUninitialized: true
+}));
+
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
 app.use(express.static(path.join(__dirname, 'frontend')))

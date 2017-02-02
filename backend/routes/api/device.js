@@ -1,5 +1,6 @@
 import express from 'express'
 import {Device} from './models'
+import {auth} from './auth'
 
 export default () => {
 	const router = express.Router()
@@ -24,9 +25,9 @@ export default () => {
 		})
 	})
 
-	router.post('/', (req, res) => {
+	router.post('/', auth,(req, res) => {
 		let device = new Device()
-		device.owner = req.body.owner
+		device.owner = req.session.user
 		device.password = req.body.password
 		device.save((err) => {
 			if (err) {
