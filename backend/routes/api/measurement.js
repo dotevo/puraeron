@@ -35,7 +35,11 @@ export default () => {
 				measurement.date = req.body.date
 				measurement.values = req.body.values
 				measurement.device = req.body.device
-				measurement.loc = req.body.loc
+				if (req.body.loc != null) {
+					measurement.loc = req.body.loc
+				} else {
+					measurement.loc = device.loc
+				}
 				measurement.save((err) => {
 					if (err) {
 						res.send(err)

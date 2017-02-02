@@ -21,6 +21,10 @@ export const Device = mongoose.model('Device', new mongoose.Schema({
 		type: String,
 		required: true,
 		select: false
+	},
+	loc: {
+		type: [Number],
+		index: '2d'
 	}
 }))
 

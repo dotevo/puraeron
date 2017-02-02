@@ -29,6 +29,7 @@ export default () => {
 		let device = new Device()
 		device.owner = req.session.user
 		device.password = req.body.password
+		device.loc = req.body.loc
 		device.save((err) => {
 			if (err) {
 				res.send(err)
