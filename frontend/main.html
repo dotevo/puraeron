@@ -21,12 +21,37 @@ Esperanto: Pur - czyste ; aero - powietrze
 <div id="page" data-role="page" class="type-index">
 	<div data-role="header">
 		<h1>Puraeron - czystego powietrza</h1>
-		<a href="index.html" data-icon="gear" class="ui-btn-right">Login</a>
+		<a href="#popupSettings" data-rel="popup" data-position-to="window"
+		class="ui-btn-left" data-transition="pop" data-icon="gear" class="">Settings</a>
+		<a href="#popupLogin" data-rel="popup" data-position-to="window"
+		class="ui-btn-right" data-transition="pop" class="">Login</a>
 	</div>
 	<div id="content" class="ui-content" data-role="content">
 		<div id="map" height="100" width="100"></div>
 	</div>
 	<div data-role="footer" class="ui-footer" data-position="fixed" data-tap-toggle="true">
+	</div>
+
+	<div data-role="popup" id="popupLogin" data-theme="a" class="ui-corner-all">
+		<form>
+			<div style="padding:10px 20px;">
+				<h3>Logowanie</h3>
+				<label for="un" class="ui-hidden-accessible">Nazwa:</label>
+				<input name="user" id="un" value="" placeholder="nazwa" data-theme="a" type="text">
+				<label for="pw" class="ui-hidden-accessible">Hasło:</label>
+				<input name="pass" id="pw" value="" placeholder="hasło" data-theme="a" type="password">
+				<button type="submit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check">Zaloguj</button>
+			</div>
+		</form>
+	</div>
+
+	<div data-role="popup" id="popupSettings" data-theme="a" class="ui-corner-all">
+		<form>
+			<div style="padding:10px 20px;">
+				<h3>Ustawienia</h3>
+				<button type="submit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check">Zapisz</button>
+			</div>
+		</form>
 	</div>
 </div>
 <script src="main.js"></script>
