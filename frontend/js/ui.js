@@ -98,6 +98,10 @@ function refreshMyDevices() {
 				data[k].name +
 				'</a></li>')
 		}
+		$('#devicesList > .device').on('click', () => {
+			$('#devicePopup').popup('open')
+			minimap.invalidateSize()
+		})
 		$('#devicesList').listview('refresh')
 	})
 }

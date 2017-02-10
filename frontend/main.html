@@ -53,6 +53,20 @@ Esperanto: Pur - czyste ; aero - powietrze
 			<button id="logoutbutton" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check">Wyloguj</button>
 		</div>
 	</div>
+
+	<div data-role="popup" id="devicePopup" data-theme="b" class="ui-corner-all">
+		<div style="padding:10px 20px;">
+			<h3>Urządzenie</h3>
+			<span id="loginError" class="form-error"></span>
+			<label for="deviceName" class="ui-hidden-accessible">Nazwa:</label>
+			<input name="deviceName" id="deviceName" value="" placeholder="nazwa" data-theme="a" type="text">
+			<label for="devicePass" class="ui-hidden-accessible">Hasło:</label>
+			<input name="devicePass" id="devicePass" value="" placeholder="hasło" data-theme="a" type="password">
+			<div id="minimap"></div>
+			<button id="deviceSave" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check">Zapisz</button>
+		</div>
+	</div>
+
 	<div data-role="panel" data-position="right" data-display="push" style="overflow:auto" data-theme="b" id="devices">
 		<ul data-role="listview" id="devicesList">
 			<li data-icon="refresh"><a id="refreshMyDevicesButton">Moje urządzenia</a></li>
