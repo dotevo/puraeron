@@ -50,14 +50,14 @@ let rest = new Rest({
 	}
 })
 
-function login(event) {
+function login() {
 	rest.login({
-			name: $('#popupuser').val(),
-			password: $('#popuppass').val()
-		})
+		name: $('#popupuser').val(),
+		password: $('#popuppass').val()
+	})
 }
 
-function logout(event) {
+function logout() {
 	rest.logout()
 }
 
@@ -65,13 +65,13 @@ setInterval(() => {
 	rest.status()
 }, 60 * 1000)
 
-function clearLoginForm(event) {
+function clearLoginForm() {
 	$('#loginError').text('')
 	$('#popupuser').val('')
 	$('#popuppass').val('')
 }
 
-function refreshMyDevices(event) {
+function refreshMyDevices() {
 	$('#devicesList > .device').remove()
 
 	rest.getMyDevices((data) => {
@@ -90,6 +90,6 @@ function uiInit() {
 	$('#logoutbutton').on('click', logout)
 	$('#refreshMyDevicesButton').on('click', refreshMyDevices)
 	$('#popupLogin').on('popupbeforeposition popupafteropen popupafterclose',
-	 clearLoginForm);
+		clearLoginForm)
 	rest.status()
 }

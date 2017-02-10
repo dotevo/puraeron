@@ -15,7 +15,7 @@ L.SensorLayer = L.FeatureGroup.extend({
 		}
 		let _this = this
 		//Temp. download all
-		rest.get24hMeasurements({bl: '-100,-100',ur: '100,100', h:'1'},(data)=>{
+		rest.get24hMeasurements({bl: '-100,-100',ur: '100,100', h:'1'}, (data) => {
 			for (let k in data) {
 				let marker = L.marker(data[k]['loc'],
 					{title: 'i', 'pm2.5': data[k]['values']['pm2-5'], draggable:'true'})

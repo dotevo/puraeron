@@ -10,7 +10,7 @@ class Rest{
 	login(data) {
 		const _this = this
 		$.ajax({
-			type: "POST",
+			type: 'POST',
 			url: '/api/auth/login',
 			data: data,
 			success: (data) => {
@@ -29,7 +29,7 @@ class Rest{
 	logout(data) {
 		const _this = this
 		$.ajax({
-			type: "POST",
+			type: 'POST',
 			url: '/api/auth/logout',
 			data: data,
 			success: (data) => {
@@ -48,7 +48,7 @@ class Rest{
 	status(data) {
 		const _this = this
 		$.ajax({
-			type: "GET",
+			type: 'GET',
 			url: '/api/auth',
 			data: data,
 			success: (data) => {
@@ -71,7 +71,7 @@ class Rest{
 	getMyDevices(callback) {
 		const _this = this
 		$.ajax({
-			type: "GET",
+			type: 'GET',
 			url: '/api/device/my',
 			success: (data) => {
 				callback(data)
@@ -86,9 +86,8 @@ class Rest{
 	}
 	//////////////////Measurement////////////////
 	get24hMeasurements(opt, callback) {
-		const _this = this
 		$.ajax({
-			type: "GET",
+			type: 'GET',
 			url: '/api/measurement/bbox/' + opt.bl + '/' + opt.ur + '/' + opt.h,
 			success: (data) => {
 				callback(data)

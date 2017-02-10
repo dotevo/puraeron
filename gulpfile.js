@@ -68,8 +68,20 @@ gulp.task('frontend:html', () => {
 gulp.task('frontend:build', ['frontend:libs', 'frontend:js', 'frontend:css', 'frontend:html'], function () {
 })
 
+//TODO: Sourcemap?
 gulp.task('frontend:lint', () => {
 	return gulp.src(['frontend/**/*.js'])
+		.pipe(eslint())
+		.pipe(eslint.format())
+		.pipe(jscs())
+		.pipe(stylish())
+})
+
+gulp.task('frontend:lint:join', () => {
+	return gulp.src(['frontend/**/*.js'])
+		.pipe(dependencies())
+		.pipe(sourcemaps.init())
+		.pipe(concat('main.js'))
 		.pipe(eslint())
 		.pipe(eslint.format())
 		.pipe(jscs())

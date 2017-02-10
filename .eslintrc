@@ -20,7 +20,8 @@
         "document": true,
         "window": true,
         "map": true,
-        "scroll": true
+        "scroll": true,
+        "setInterval": true
     },
     "extends": "eslint:recommended"
 }

@@ -16,7 +16,7 @@ export default () => {
 	})
 
 	router.get('/my', (req, res) => {
-		Device.find({ owner: req.session.user }, (err, device) => {
+		Device.find({owner: req.session.user}, (err, device) => {
 			if (err) {
 				res.send(err)
 			} else {
