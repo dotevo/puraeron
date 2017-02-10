@@ -14,7 +14,7 @@ export default () => {
 		})
 	})
 
-	router.get('/find/:bl/:ur/:h', (req, res) => {
+	router.get('/bbox/:bl/:ur/:h', (req, res) => {
 		const bl = req.params.bl.split(',')
 		const ur = req.params.ur.split(',')
 		Measurement.find({
@@ -29,6 +29,21 @@ export default () => {
 					]
 				}
 			}
+		}, (err, measurement) => {
+			if (err) {
+				res.send(err)
+			} else {
+				res.json(measurement)
+			}
+		})
+	})
+
+	router.get('/device/:id/:h', (req, res) => {
+		Measurement.find({
+			date: {
+				$gt: new Date(Date.now() - req.params.h * 60 * 60 * 1000)
+			},
+			device: req.params.id
 		}, (err, measurement) => {
 			if (err) {
 				res.send(err)

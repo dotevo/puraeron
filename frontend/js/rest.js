@@ -89,7 +89,7 @@ class Rest{
 		const _this = this
 		$.ajax({
 			type: "GET",
-			url: '/api/measurement/find/' + opt.bl + '/' + opt.ur + '/' + opt.h,
+			url: '/api/measurement/bbox/' + opt.bl + '/' + opt.ur + '/' + opt.h,
 			success: (data) => {
 				callback(data)
 			},
