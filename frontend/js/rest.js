@@ -66,4 +66,22 @@ class Rest{
 			dataType: 'json'
 		})
 	}
+
+	//////////////////DEVICE/////////////////
+	getMyDevices(callback) {
+		const _this = this
+		$.ajax({
+			type: "GET",
+			url: '/api/device/my',
+			success: (data) => {
+				callback(data)
+			},
+			error: (data) => {
+				if (data.statusText == 'Unauthorized') {
+					_this.opts.auth.status({status: 'OUT'})
+				}
+			},
+			dataType: 'json'
+		})
+	}
 }

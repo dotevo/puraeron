@@ -21,7 +21,8 @@ Esperanto: Pur - czyste ; aero - powietrze
 <div id="page" data-role="page" class="type-index">
 	<div data-role="header" data-theme="b">
 		<h1>Puraeron - czystego powietrza</h1>
-		<a id="loginpopupbutton" href="#popupLogin" data-rel="popup" data-position-to="window" data-transition="pop" >Login</a>
+		<a id="loginpopupbutton" href="#popupLogin" data-rel="popup" data-position-to="window" data-transition="pop">Login</a>
+		<a id="devicesButton" href="#devices" data-rel="popup" data-transition="pop">Devices</a>
 	</div>
 	<div id="content" class="ui-content" data-role="content">
 		<div id="map" height="100" width="100"></div>
@@ -43,6 +44,14 @@ Esperanto: Pur - czyste ; aero - powietrze
 			<h3>Logowanie</h3>
 			<button id="logoutbutton" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check">Wyloguj</button>
 		</div>
+	</div>
+	<div data-role="panel" data-position="right" data-display="push" style="overflow:auto" data-theme="b" id="devices">
+		<ul data-role="listview" id="devicesList">
+			<li data-icon="refresh"><a id="refreshMyDevicesButton">Moje urządzenia</a></li>
+			<li data-icon="gear" class="device"><a>Jacek</a></li>
+			<li data-icon="gear" class="device"><a>Placek</a></li>
+			<li data-icon="plus"><a>Dodaj</a></li>
+		</ul>
 	</div>
 </div>
 <script src="main.js"></script>

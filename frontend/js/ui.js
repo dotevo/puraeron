@@ -37,15 +37,15 @@ let rest = new Rest({
 		},
 		status: (data) => {
 			if (data.status == 'OK') {
-				console.log(data)
 				$('#loginpopupbutton').text('Login: ' + data.name)
 				$('#loginDiv').hide()
-				$('#logoutDiv').show()
+				$('#logoutDiv, #devicesButton').show()
 			} else if (data.status == 'OUT') {
 				$('#loginpopupbutton').text('Login')
-				$('#logoutDiv').hide()
+				$('#logoutDiv, #devicesButton').hide()
 				$('#loginDiv').show()
 			}
+			refreshMyDevices()
 		}
 	}
 })
@@ -71,9 +71,24 @@ function clearLoginForm(event) {
 	$('#popuppass').val('')
 }
 
+function refreshMyDevices(event) {
+	$('#devicesList > .device').remove()
+
+	rest.getMyDevices((data) => {
+		for (let k in data) {
+			console.log(data[k])
+			$('#devicesList > [data-icon=refresh]').after('<li data-icon="gear" class="device"><a>' +
+				data[k].name +
+				'</a></li>')
+		}
+		$('#devicesList').listview('refresh')
+	})
+}
+
 function uiInit() {
 	$('#loginbutton').on('click', login)
 	$('#logoutbutton').on('click', logout)
+	$('#refreshMyDevicesButton').on('click', refreshMyDevices)
 	$('#popupLogin').on('popupbeforeposition popupafteropen popupafterclose',
 	 clearLoginForm);
 	rest.status()

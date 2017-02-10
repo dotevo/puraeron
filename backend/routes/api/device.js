@@ -15,12 +15,22 @@ export default () => {
 		})
 	})
 
-	router.get('/:id', (req, res) => {
-		Device.findById(req.params.id, (err, measurement) => {
+	router.get('/my', (req, res) => {
+		Device.find({ owner: req.session.user }, (err, device) => {
 			if (err) {
 				res.send(err)
 			} else {
-				res.json(measurement)
+				res.json(device)
+			}
+		})
+	})
+
+	router.get('/id/:id', (req, res) => {
+		Device.findById(req.params.id, (err, device) => {
+			if (err) {
+				res.send(err)
+			} else {
+				res.json(device)
 			}
 		})
 	})
