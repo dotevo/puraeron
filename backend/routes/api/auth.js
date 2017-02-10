@@ -1,5 +1,6 @@
 import express from 'express'
 import {User} from './models'
+import bcrypt from 'bcrypt'
 
 export function auth(req, res, next) {
 	if (req.session && req.session.name != null) {
@@ -9,7 +10,7 @@ export function auth(req, res, next) {
 	}
 }
 
-export default () => {
+export default ({config}) => {
 	const router = express.Router()
 
 	router.get('/', auth, (req, res) => {
@@ -17,7 +18,7 @@ export default () => {
 	})
 
 	router.post('/login', (req, res) => {
-		User.findOne({name: req.body.name, password: req.body.password},
+		User.findOne({name: req.body.name, password: bcrypt.hashSync(req.body.password, config.salt)},
 			(err, user) => {
 				if (user == null) {
 					res.send({error: 'Log in error'})

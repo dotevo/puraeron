@@ -40,6 +40,11 @@ class Rest{
 					_this.opts.auth.error(data)
 				}
 			},
+			error: (data) => {
+				if (data.statusText == 'Unauthorized') {
+					_this.opts.auth.status({status: 'OUT'})
+				}
+			},
 			dataType: 'json'
 		})
 	}
@@ -66,7 +71,18 @@ class Rest{
 			dataType: 'json'
 		})
 	}
-
+	/////////////////User////////////////////
+	register(data, callback) {
+		$.ajax({
+			type: 'POST',
+			url: '/api/user',
+			data: data,
+			success: (data) => {
+				callback(data)
+			},
+			dataType: 'json'
+		})
+	}
 	//////////////////DEVICE/////////////////
 	getMyDevices(callback) {
 		const _this = this

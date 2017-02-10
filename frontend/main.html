@@ -34,11 +34,19 @@ Esperanto: Pur - czyste ; aero - powietrze
 		<div id="loginDiv" style="padding:10px 20px;">
 			<h3>Logowanie</h3>
 			<span id="loginError" class="form-error"></span>
-			<label for="un" class="ui-hidden-accessible">Nazwa:</label>
+			<label for="user" class="ui-hidden-accessible">Nazwa:</label>
 			<input name="user" id="popupuser" value="" placeholder="nazwa" data-theme="a" type="text">
-			<label for="pw" class="ui-hidden-accessible">Hasło:</label>
+			<label for="pass" class="ui-hidden-accessible">Hasło:</label>
 			<input name="pass" id="popuppass" value="" placeholder="hasło" data-theme="a" type="password">
 			<button id="loginbutton" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check">Zaloguj</button>
+			<div data-role="collapsible">
+				<h3>Zarejestruj</h3>
+				<p>
+					<label for="pass2" class="ui-hidden-accessible">Powtórz hasło:</label>
+					<input name="pass2" id="popuppass2" value="" placeholder="powtórz hasło" data-theme="a" type="password">
+					<button id="registerButton" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check">Rejestruj</button>
+				</p>
+			</div>
 		</div>
 		<div id="logoutDiv" style="padding:10px 20px;">
 			<h3>Logowanie</h3>

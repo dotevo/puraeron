@@ -1,5 +1,6 @@
 {
 	"port": 3333,
 	"db": "mongodb://localhost:27017/aero2",
-	"session": "10101010"
+	"session": "10101010",
+	"salt": "$2a$10$1ijP.FL8Z7asf1njxqwKT.aBfp5vxWBG36aqCZd4dfTC3sG8AAaEu"
 }

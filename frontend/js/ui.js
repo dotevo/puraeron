@@ -57,6 +57,22 @@ function login() {
 	})
 }
 
+function register() {
+	const pass = $('#popuppass').val()
+	const pass2 = $('#popuppass2').val()
+	if (pass == pass2) {
+		rest.register({name: $('#popupuser').val(), password: pass}, (data) => {
+			if (data.status == 'OK') {
+				$('#popupLogin').popup('close')
+			} else {
+				$('#loginError').text(data.error)
+			}
+		})
+	} else {
+		$('#loginError').text('Różne hasła!')
+	}
+}
+
 function logout() {
 	rest.logout()
 }
@@ -69,6 +85,7 @@ function clearLoginForm() {
 	$('#loginError').text('')
 	$('#popupuser').val('')
 	$('#popuppass').val('')
+	$('#popuppass2').val('')
 }
 
 function refreshMyDevices() {
@@ -87,6 +104,7 @@ function refreshMyDevices() {
 
 function uiInit() {
 	$('#loginbutton').on('click', login)
+	$('#registerButton').on('click', register)
 	$('#logoutbutton').on('click', logout)
 	$('#refreshMyDevicesButton').on('click', refreshMyDevices)
 	$('#popupLogin').on('popupbeforeposition popupafteropen popupafterclose',
