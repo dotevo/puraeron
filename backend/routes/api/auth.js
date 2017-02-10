@@ -13,7 +13,7 @@ export default () => {
 	const router = express.Router()
 
 	router.get('/', auth, (req, res) => {
-		res.send({auth: 'logged'})
+		res.send({status: 'OK', name: req.session.name})
 	})
 
 	router.post('/login', (req, res) => {
@@ -24,7 +24,7 @@ export default () => {
 				} else {
 					req.session.name = user.name
 					req.session.user = user
-					res.send({status: 'OK'})
+					res.send({status: 'OK', name: req.session.name})
 				}
 			}
 		)
@@ -32,7 +32,7 @@ export default () => {
 
 	router.post('/logout', auth, (req, res) => {
 		req.session.name = null
-		req.session.id = null
+		req.session.user = null
 		res.send({status: 'OK'})
 	})
 
