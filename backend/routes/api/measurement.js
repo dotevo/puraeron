@@ -14,7 +14,31 @@ export default () => {
 		})
 	})
 
-	router.get('/:id', (req, res) => {
+	router.get('/find/:bl/:ur/:h', (req, res) => {
+		const bl = req.params.bl.split(',')
+		const ur = req.params.ur.split(',')
+		Measurement.find({
+			date: {
+				$gt: new Date(Date.now() - req.params.h * 60 * 60 * 1000)
+			},
+			loc: {
+				$geoWithin: {
+					$box:  [
+						bl,
+						ur
+					]
+				}
+			}
+		}, (err, measurement) => {
+			if (err) {
+				res.send(err)
+			} else {
+				res.json(measurement)
+			}
+		})
+	})
+
+	router.get('/id/:id', (req, res) => {
 		Measurement.findById(req.params.id, (err, measurement) => {
 			if (err) {
 				res.send(err)
@@ -35,6 +59,9 @@ export default () => {
 				measurement.date = req.body.date
 				measurement.values = req.body.values
 				measurement.device = req.body.device
+				if (measurement.date == null) {
+					measurement.date = new Date()
+				}
 				if (req.body.loc != null) {
 					measurement.loc = req.body.loc
 				} else {

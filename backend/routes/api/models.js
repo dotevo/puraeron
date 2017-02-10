@@ -44,7 +44,7 @@ export const Measurement = mongoose.model('Measurement', new mongoose.Schema({
 	},
 	date: {
 		type: Date,
-		default: Date.now
+		required: true
 	},
 	loc: {
 		type: [Number],
