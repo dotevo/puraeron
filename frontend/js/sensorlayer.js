@@ -1,22 +1,29 @@
 /**
  * @requires ./canvaslayer.js
+ * @requires ./rest.js
+ * @requires ./ui.js
  */
 
 L.SensorLayer = L.FeatureGroup.extend({
 	initialize: function (opts) {
 		L.FeatureGroup.prototype.initialize.call(this, opts)
 		L.Util.setOptions(this, opts)
-		let markers = [L.marker([51.1078, 17.0351], {title: 'i', 'pm2.5': 15, draggable:'true'}),
-			L.marker([51.1098, 17.0341], {title: 'i', 'pm2.5': 10, draggable:'true'}),
-			L.marker([51.1138, 17.0321], {title: 'i', 'pm2.5': 20, draggable:'true'}),
-			L.marker([51.1098, 17.0321], {title: 'i', 'pm2.5': 1, draggable:'true'}),
-			L.marker([51.2098, 17.0221], {title: 'i', 'pm2.5': 1, draggable:'true'}),
-			L.marker([51.0098, 17.0421], {title: 'i', 'pm2.5': 1, draggable:'true'}),
-			L.marker([51.0098, 17.0221], {title: 'i', 'pm2.5': 1, draggable:'true'})]
+		let markers = []
 
-		for (let key in markers) {
-			this.addLayer(markers[key])
+		function dragend() {
+			canvasTiles.redraw()
 		}
+		let _this = this
+		//Temp. download all
+		rest.get24hMeasurements({bl: '-100,-100',ur: '100,100', h:'1'},(data)=>{
+			for (let k in data) {
+				let marker = L.marker(data[k]['loc'],
+					{title: 'i', 'pm2.5': data[k]['values']['pm2-5'], draggable:'true'})
+				marker.on('dragend', dragend)
+				_this.addLayer(marker)
+				markers.push(marker)
+			}
+		})
 
 		var canvasTiles = new L.CanvasLayer({
 			opacity: 0.5,
@@ -27,14 +34,6 @@ L.SensorLayer = L.FeatureGroup.extend({
 				return marker.options['pm2.5'];
 			}
 		})
-
-		function dragend() {
-			canvasTiles.redraw()
-		}
-
-		for (let key in markers) {
-			markers[key].on('dragend', dragend)
-		}
 
 		this.addLayer(canvasTiles)
 	}

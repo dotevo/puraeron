@@ -84,4 +84,16 @@ class Rest{
 			dataType: 'json'
 		})
 	}
+	//////////////////Measurement////////////////
+	get24hMeasurements(opt, callback) {
+		const _this = this
+		$.ajax({
+			type: "GET",
+			url: '/api/measurement/find/' + opt.bl + '/' + opt.ur + '/' + opt.h,
+			success: (data) => {
+				callback(data)
+			},
+			dataType: 'json'
+		})
+	}
 }
