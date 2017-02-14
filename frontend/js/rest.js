@@ -101,7 +101,7 @@ class Rest{
 		})
 	}
 	//////////////////Measurement////////////////
-	get24hMeasurements(opt, callback) {
+	getBboxMeasurements(opt, callback) {
 		$.ajax({
 			type: 'GET',
 			url: '/api/measurement/bbox/' + opt.bl + '/' + opt.ur + '/' + opt.h,

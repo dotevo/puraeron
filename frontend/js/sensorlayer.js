@@ -10,15 +10,22 @@ L.SensorLayer = L.FeatureGroup.extend({
 		L.Util.setOptions(this, opts)
 		let markers = []
 
+		function clicked(e) {
+			console.log(e)
+		}
+
 		function dragend() {
 			canvasTiles.redraw()
 		}
 		let _this = this
 		//Temp. download all
-		rest.get24hMeasurements({bl: '-100,-100',ur: '100,100', h:'1'}, (data) => {
+		rest.getBboxMeasurements({bl: '-100,-100',ur: '100,100', h:'1'}, (data) => {
 			for (let k in data) {
+				console.log(data[k])
+				console.log(data[k]['values']['pm25'])
 				let marker = L.marker(data[k]['loc'],
-					{title: 'i', 'pm2.5': data[k]['values']['pm2-5'], draggable:'true'})
+					{title: 'i', 'pm2.5': data[k]['values']['pm25'], draggable:'true'})
+				marker.on('click', clicked)
 				marker.on('dragend', dragend)
 				_this.addLayer(marker)
 				markers.push(marker)

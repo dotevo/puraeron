@@ -63,6 +63,9 @@ L.CanvasLayer = L.GridLayer.extend({
 		for (let key in markers) {
 			const marker = markers[key]
 			const valueTmp = this.options.getValue(marker)
+			if (valueTmp == null) {
+				continue;
+			}
 			const distanceTmp = point.distanceTo(marker.getLatLng())
 			value += valueTmp / distanceTmp
 			distance +=  1 / distanceTmp
