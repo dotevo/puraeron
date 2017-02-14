@@ -4,6 +4,9 @@ let minimap
 /**
  * @requires ./sensorlayer.js
  */
+function showDeviceData(data) {
+	$('#devicePopup').popup('open')
+}
 
 function mapInit() {
 	map = L.map('map').setView([51.1098, 17.0351], 13)
@@ -14,7 +17,7 @@ function mapInit() {
 		attribution: 'Dane mapy <a href="http://osm.org">OpenStreetmap<a/>'})
 	map.addLayer(osm)
 
-	const sensors = L.sensorLayer({})
+	const sensors = L.sensorLayer({showDeviceData: showDeviceData})
 
 	map.addLayer(sensors)
 	map.fire('zoomend')

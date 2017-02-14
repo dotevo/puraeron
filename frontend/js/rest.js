@@ -111,4 +111,15 @@ class Rest{
 			dataType: 'json'
 		})
 	}
+
+	getDeviceMeasurements(opt, callback) {
+		$.ajax({
+			type: 'GET',
+			url: '/api/measurement/device/' + opt.id + '/' + opt.h,
+			success: (data) => {
+				callback(data)
+			},
+			dataType: 'json'
+		})
+	}
 }

@@ -11,7 +11,8 @@ L.SensorLayer = L.FeatureGroup.extend({
 		let markers = []
 
 		function clicked(e) {
-			console.log(e)
+			const device = e.target.options['id']
+			rest.getDeviceMeasurements({id: device, h:1}, opts.showDeviceData)
 		}
 
 		function dragend() {
@@ -21,10 +22,8 @@ L.SensorLayer = L.FeatureGroup.extend({
 		//Temp. download all
 		rest.getBboxMeasurements({bl: '-100,-100',ur: '100,100', h:'1'}, (data) => {
 			for (let k in data) {
-				console.log(data[k])
-				console.log(data[k]['values']['pm25'])
 				let marker = L.marker(data[k]['loc'],
-					{title: 'i', 'pm2.5': data[k]['values']['pm25'], draggable:'true'})
+					{title: 'i', id: data[k]['device'], 'pm2.5': data[k]['values']['pm25'], draggable:'true'})
 				marker.on('click', clicked)
 				marker.on('dragend', dragend)
 				_this.addLayer(marker)
