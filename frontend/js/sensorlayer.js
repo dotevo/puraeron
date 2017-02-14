@@ -12,7 +12,7 @@ L.SensorLayer = L.FeatureGroup.extend({
 
 		function clicked(e) {
 			const device = e.target.options['id']
-			rest.getDeviceMeasurements({id: device, h:1}, opts.showDeviceData)
+			opts.showDeviceData({id: device})
 		}
 
 		function dragend() {

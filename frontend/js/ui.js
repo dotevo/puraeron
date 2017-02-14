@@ -99,8 +99,7 @@ function refreshMyDevices() {
 				'</a></li>')
 		}
 		$('#devicesList > .device').on('click', () => {
-			$('#devicePopup').popup('open')
-			minimap.invalidateSize()
+			popupDevice.open(/*TODO*/)
 		})
 		$('#devicesList').listview('refresh')
 	})

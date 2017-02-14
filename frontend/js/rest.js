@@ -100,6 +100,18 @@ class Rest{
 			dataType: 'json'
 		})
 	}
+
+	getDevice(opt, callback) {
+		const _this = this
+		$.ajax({
+			type: 'GET',
+			url: '/api/device/id/' + opt.id,
+			success: (data) => {
+				callback(data)
+			},
+			dataType: 'json'
+		})
+	}
 	//////////////////Measurement////////////////
 	getBboxMeasurements(opt, callback) {
 		$.ajax({

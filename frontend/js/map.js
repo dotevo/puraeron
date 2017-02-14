@@ -5,7 +5,9 @@ let minimap
  * @requires ./sensorlayer.js
  */
 function showDeviceData(data) {
-	$('#devicePopup').popup('open')
+	rest.getDevice({id: data.id, h:1}, (d) => {
+		popupDevice.open(d)
+	})
 }
 
 function mapInit() {
