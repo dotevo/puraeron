@@ -32,6 +32,26 @@ export default () => {
 		})
 	})
 
+	router.put('/id/:id', auth,(req, res) => {
+		Device.findById(req.params.id, (err, device) => {
+			if (err) {
+				res.send(err)
+			} else {
+				if (device.owner != req.session.userid) {
+					res.sendStatus(403)
+					return
+				}
+				if (req.body.password != null) {
+					device.password = req.body.password
+				}
+				device.name = req.body.name
+				device.loc = req.body.loc
+				device.save()
+				res.json(device)
+			}
+		})
+	})
+
 	router.get('/id/:id', (req, res) => {
 		Device.findById(req.params.id, (err, dev) => {
 			if (err) {
@@ -59,6 +79,6 @@ export default () => {
 		})
 	})
 
-	//TODO: PUT, DELETE
+	//TODO: DELETE
 	return router
 }

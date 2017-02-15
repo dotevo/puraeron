@@ -26,16 +26,16 @@ function resizeContent() {
 
 let rest = new Rest({
 	auth: {
-		login: () => {
+		login: function() {
 			$('#popupLogin').popup('close')
 		},
-		logout: () => {
+		logout: function() {
 			$('#popupLogin').popup('close')
 		},
-		error: (data) => {
+		error: function(data) {
 			$('#loginError').text(data.error)
 		},
-		status: (data) => {
+		status: function(data) {
 			if (data.status == 'OK') {
 				$('#loginpopupbutton').text('Login: ' + data.name)
 				$('#loginDiv').hide()
@@ -61,7 +61,7 @@ function register() {
 	const pass = $('#popuppass').val()
 	const pass2 = $('#popuppass2').val()
 	if (pass == pass2) {
-		rest.register({name: $('#popupuser').val(), password: pass}, (data) => {
+		rest.register({name: $('#popupuser').val(), password: pass}, function(data) {
 			if (data.status == 'OK') {
 				$('#popupLogin').popup('close')
 			} else {
@@ -77,7 +77,7 @@ function logout() {
 	rest.logout()
 }
 
-setInterval(() => {
+setInterval(function() {
 	rest.status()
 }, 60 * 1000)
 
@@ -89,7 +89,7 @@ function clearLoginForm() {
 }
 
 function onDeviceClicked(e) {
-	rest.getDevice({id: $(this).attr('data-id')}, (d) => {
+	rest.getDevice({id: $(this).attr('data-id')}, function(d) {
 		popupDevice.open(d)
 	})
 }
@@ -97,7 +97,7 @@ function onDeviceClicked(e) {
 function refreshMyDevices() {
 	$('#devicesList > .device').remove()
 
-	rest.getMyDevices((data) => {
+	rest.getMyDevices(function(data) {
 		for (let k in data) {
 			console.log(data[k])
 			let b = $('<li data-icon="gear" class="device" data-id="' + data[k]['_id'] + '"><a>' +
@@ -110,6 +110,10 @@ function refreshMyDevices() {
 	})
 }
 
+function createDevice(e) {
+	popupDevice.open.bind(popupDevice)({create: true})
+}
+
 function uiInit() {
 	$('#loginbutton').on('click', login)
 	$('#registerButton').on('click', register)
@@ -117,5 +121,6 @@ function uiInit() {
 	$('#refreshMyDevicesButton').on('click', refreshMyDevices)
 	$('#popupLogin').on('popupbeforeposition popupafteropen popupafterclose',
 		clearLoginForm)
+	$('#createDeviceButton').on('click', createDevice)
 	rest.status()
 }

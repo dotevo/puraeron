@@ -20,7 +20,7 @@ L.SensorLayer = L.FeatureGroup.extend({
 		}
 		let _this = this
 		//Temp. download all
-		rest.getBboxMeasurements({bl: '-100,-100',ur: '100,100', h:'1'}, (data) => {
+		rest.getBboxMeasurements({bl: '-100,-100',ur: '100,100', h:'1'}, function(data) {
 			for (let k in data) {
 				let marker = L.marker(data[k]['loc'],
 					{title: 'i', id: data[k]['device'], 'pm2.5': data[k]['values']['pm25'], draggable:'true'})
@@ -34,10 +34,10 @@ L.SensorLayer = L.FeatureGroup.extend({
 
 		var canvasTiles = new L.CanvasLayer({
 			opacity: 0.5,
-			getMarkers: () => {
+			getMarkers: function () {
 				return markers //TODO: INDEX
 			},
-			getValue: (marker) => {
+			getValue: function (marker) {
 				return marker.options['pm2.5'];
 			}
 		})

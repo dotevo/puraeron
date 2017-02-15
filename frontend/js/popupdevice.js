@@ -1,5 +1,3 @@
-let minimap
-let marker
 let popupDevice
 
 var data = {
@@ -49,29 +47,61 @@ function refreshChart() {
 
 class DevicePopup {
 	constructor() {
-			minimap = L.map('minimap').setView([51.1098, 17.0351], 13)
-			const osmUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-			const osm = new L.TileLayer(osmUrl, {
-				maxZoom: 19,
-				opacity: 0.7,
-				attribution: 'Dane mapy <a href="http://osm.org">OpenStreetmap<a/>'})
-			minimap.addLayer(osm)
-			marker = L.marker([0, 0], {draggable:'true'}).addTo(minimap)
+		this.minimap = L.map('minimap').setView([51.1098, 17.0351], 13)
+		const osmUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+		const osm = new L.TileLayer(osmUrl, {
+			maxZoom: 19,
+			opacity: 0.7,
+			attribution: 'Dane mapy <a href="http://osm.org">OpenStreetmap<a/>'})
+		this.minimap.addLayer(osm)
+		this.marker = L.marker([0, 0], {draggable:'true'}).addTo(this.minimap)
 	}
+
 	init() {
-		$( "#deviceTabs" ).tabs({
+		let self = this
+		$('#deviceTabs').tabs({
 			activate: function(event, ui) {
-				$('#devicePopup').popup("reposition", {
-					"positionTo": "window"})
+				$('#devicePopup').popup('reposition', {
+					'positionTo': 'window'})
 				refreshChart()
-				minimap.invalidateSize()
+				self.minimap.invalidateSize()
 			}
 		})
+		$('#deviceClose').on('click', function() {
+			close()
+		})
+
+		$('#deviceSave').on('click', this.onSaveClicked.bind(this))
+	}
+
+	onSaveClicked() {
+		console.log(this)
+		console.log(this.create)
+		if (this.create == true) {
+			rest.createDevice({"password": $('#devicePass').val(),
+				"name": $('#deviceName').val(),
+				"loc":  [this.marker.getLatLng().lat, this.marker.getLatLng().lng]},
+				function(data){
+					console.log(data)
+					close()
+				})
+		} else {
+			let data = {}
+			data.loc = [this.marker.getLatLng().lat, this.marker.getLatLng().lng]
+			data.name = $('#deviceName').val()
+			console.log($('#devicePass').val())
+			if ($('#devicePass').val().length) {
+				data.password = $('#devicePass').val()
+			}
+			rest.updateDevice({id: this.id, data: data}, function(data) {
+				close()
+			})
+			console.log('save')
+		}
 	}
 
 	open(device) {
-		console.log(device)
-		if (device['editable']) {
+		if (device['editable'] || device['create']) {
 			$('#passwordBox').show()
 			$('#deviceSave').show()
 			$('#deviceClose').hide()
@@ -83,10 +113,18 @@ class DevicePopup {
 			$('#deviceName').attr('readonly', true)
 		}
 		$('#deviceName').val(device.name)
+		$('#deviceId').text(device._id)
 		$('#devicePopup').popup('open')
-		minimap.invalidateSize()
-		minimap.setView(device.loc, 10)
-		marker.setLatLng(device.loc)
+		this.minimap.invalidateSize()
+		if (device.loc == null) {
+			device.loc = [0,0]
+		}
+		this.minimap.setView(device.loc, 10)
+		this.marker.setLatLng(device.loc)
+
+		this.create = device.create
+		this.id = device._id
+		console.log(this)
 	}
 
 	close() {

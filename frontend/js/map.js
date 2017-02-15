@@ -4,7 +4,7 @@ let map
  * @requires ./sensorlayer.js
  */
 function showDeviceData(data) {
-	rest.getDevice({id: data.id}, (d) => {
+	rest.getDevice({id: data.id}, function(d) {
 		popupDevice.open(d)
 	})
 }
