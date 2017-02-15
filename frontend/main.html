@@ -16,6 +16,7 @@ Esperanto: Pur - czyste ; aero - powietrze
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" />
 	<script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
 	<link rel="stylesheet" href="style.css"/>
+	<script src="https://rawgit.com/nnnick/Chart.js/v1.0.2/Chart.min.js"></script>
 </head>
 <body>
 <div id="page" data-role="page" class="type-index">
@@ -56,17 +57,35 @@ Esperanto: Pur - czyste ; aero - powietrze
 
 	<div data-role="popup" id="devicePopup" data-theme="b" class="ui-corner-all">
 		<div style="padding:10px 20px;">
-			<h3>Urządzenie</h3>
-			<span id="loginError" class="form-error"></span>
-			<label for="deviceName" class="ui-hidden-accessible">Nazwa:</label>
-			<input name="deviceName" id="deviceName" value="" placeholder="nazwa" data-theme="a" type="text">
-			<div id="passwordBox">
-				<label for="devicePass" class="ui-hidden-accessible">Hasło:</label>
-				<input name="devicePass" id="devicePass" value="" placeholder="hasło" data-theme="a" type="password">
+			<div data-role="tabs" id="deviceTabs">
+				<div data-role="navbar">
+					<ul>
+						<li><a href="#deviceInfo" class="ui-btn-active">Informacje</a></li>
+						<li><a href="#deviceData">Dane</a></li>
+					</ul>
+				</div>
+				<div id="deviceInfo">
+					<h3>Urządzenie</h3>
+					<span id="loginError" class="form-error"></span>
+					<label for="deviceName" class="ui-hidden-accessible">Nazwa:</label>
+					<input name="deviceName" id="deviceName" value="" placeholder="nazwa" data-theme="a" type="text">
+					<div id="passwordBox">
+						<label for="devicePass" class="ui-hidden-accessible">Hasło:</label>
+						<input name="devicePass" id="devicePass" value="" placeholder="hasło" data-theme="a" type="password">
+					</div>
+					<div id="minimap"></div>
+					<button id="deviceSave" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check">Zapisz</button>
+					<button id="deviceClose" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check">Zamknij</button>
+				</div>
+				<div id="deviceData">
+					<div class="chartWrapper">
+						<div class="chartAreaWrapper">
+							<canvas id="deviceChart" height="300" width="1200"></canvas>
+						</div>
+						<canvas id="deviceChartAxis" height="300" width="0"></canvas>
+					</div>
+				</div>
 			</div>
-			<div id="minimap"></div>
-			<button id="deviceSave" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check">Zapisz</button>
-			<button id="deviceClose" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check">Zamknij</button>
 		</div>
 	</div>
 

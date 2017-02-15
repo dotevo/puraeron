@@ -16,24 +16,29 @@ export default () => {
 	})
 
 	router.get('/my', (req, res) => {
-		Device.find({owner: req.session.user}, (err, device) => {
+		Device.find({owner: req.session.user}, (err, devs) => {
 			if (err) {
 				res.send(err)
 			} else {
-				device.readonly = false
-				res.json(device)
+				let devices = []
+				//Może da się łatwiej :-/
+				for (let k in devs) {
+					let device = devs[k].toObject()
+					device.editable = device.owner == req.session.userid
+					devices.push(device)
+				}
+				res.json(devices)
 			}
 		})
 	})
 
 	router.get('/id/:id', (req, res) => {
-		Device.findById(req.params.id, (err, device) => {
+		Device.findById(req.params.id, (err, dev) => {
 			if (err) {
 				res.send(err)
 			} else {
-				if (device.owner == req.session.user) {
-					device.readonly = false
-				}
+				let device = dev.toObject()
+				device.editable = device.owner == req.session.userid
 				res.json(device)
 			}
 		})

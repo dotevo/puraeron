@@ -88,19 +88,24 @@ function clearLoginForm() {
 	$('#popuppass2').val('')
 }
 
+function onDeviceClicked(e) {
+	rest.getDevice({id: $(this).attr('data-id')}, (d) => {
+		popupDevice.open(d)
+	})
+}
+
 function refreshMyDevices() {
 	$('#devicesList > .device').remove()
 
 	rest.getMyDevices((data) => {
 		for (let k in data) {
 			console.log(data[k])
-			$('#devicesList > [data-icon=refresh]').after('<li data-icon="gear" class="device"><a>' +
+			let b = $('<li data-icon="gear" class="device" data-id="' + data[k]['_id'] + '"><a>' +
 				data[k].name +
 				'</a></li>')
+			$('#devicesList > [data-icon=refresh]').after(b)
+			b.on('click', onDeviceClicked)
 		}
-		$('#devicesList > .device').on('click', () => {
-			popupDevice.open(/*TODO*/)
-		})
 		$('#devicesList').listview('refresh')
 	})
 }

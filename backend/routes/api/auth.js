@@ -24,6 +24,7 @@ export default ({config}) => {
 					res.send({error: 'Log in error'})
 				} else {
 					req.session.name = user.name
+					req.session.userid = user.id
 					req.session.user = user
 					res.send({status: 'OK', name: req.session.name})
 				}
