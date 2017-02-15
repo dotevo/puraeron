@@ -29,6 +29,7 @@ L.SensorLayer = L.FeatureGroup.extend({
 				_this.addLayer(marker)
 				markers.push(marker)
 			}
+			canvasTiles.redraw()
 		})
 
 		var canvasTiles = new L.CanvasLayer({

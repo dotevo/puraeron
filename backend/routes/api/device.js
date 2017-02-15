@@ -20,6 +20,7 @@ export default () => {
 			if (err) {
 				res.send(err)
 			} else {
+				device.readonly = false
 				res.json(device)
 			}
 		})
@@ -30,6 +31,9 @@ export default () => {
 			if (err) {
 				res.send(err)
 			} else {
+				if (device.owner == req.session.user) {
+					device.readonly = false
+				}
 				res.json(device)
 			}
 		})

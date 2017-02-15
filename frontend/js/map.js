@@ -1,5 +1,4 @@
 let map
-let minimap
 
 /**
  * @requires ./sensorlayer.js
@@ -23,11 +22,4 @@ function mapInit() {
 
 	map.addLayer(sensors)
 	map.fire('zoomend')
-
-	minimap = L.map('minimap').setView([51.1098, 17.0351], 13)
-	const osm2 = new L.TileLayer(osmUrl, {
-		maxZoom: 19,
-		opacity: 0.7,
-		attribution: 'Dane mapy <a href="http://osm.org">OpenStreetmap<a/>'})
-	minimap.addLayer(osm2)
 }
