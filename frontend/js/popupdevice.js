@@ -30,7 +30,6 @@ var data = {
 
 class DevicePopup {
 	constructor() {
-		this.initChart = true
 		this.minimap = L.map('minimap').setView([51.1098, 17.0351], 13)
 		const osmUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
 		const osm = new L.TileLayer(osmUrl, {
@@ -47,8 +46,10 @@ class DevicePopup {
 			activate: function(event, ui) {
 				$('#devicePopup').popup('reposition', {
 					'positionTo': 'window'})
-				refreshChart(data)
 				self.minimap.invalidateSize()
+				rest.getDeviceMeasurements({id: self.id, h: 24}, function(d) {
+					self.refreshChart(d)
+				})
 			}
 		})
 		$('#deviceClose').on('click', function() {
@@ -58,22 +59,32 @@ class DevicePopup {
 		$('#deviceSave').on('click', this.onSaveClicked.bind(this))
 	}
 
-	refreshChart(data) {
-		if (!this.initChart) {
-			return
+	refreshChart(d) {
+		$('#deviceChart').replaceWith('<canvas id="deviceChart" height="300" width="1200"></canvas>');
+		$('#deviceChartAxis').replaceWith('<canvas id="deviceChartAxis" height="300" width="0"></canvas>');
+		var data = [
+			{
+				label: "PM2.5",
+				fillColor: "rgba(220,220,220,0.2)",
+				strokeColor: "rgba(220,220,220,1)",
+				pointColor: "rgba(220,220,220,1)",
+				pointStrokeColor: "#fff",
+				pointHighlightFill: "#fff",
+				pointHighlightStroke: "rgba(220,220,220,1)",
+				data: []
+				}];
+		for (let k in d) {
+			data[0].data.push({x:new Date(d[k].date), y:d[k].values['pm25']})
 		}
-		this.initChart = false
 		var ctx = document.getElementById("deviceChart").getContext("2d")
-		new Chart(ctx).Line(data, {
-			onAnimationComplete: function () {
-				let sourceCanvas = this.chart.ctx.canvas
-				let copyWidth = this.scale.xScalePaddingLeft - 5
-				var copyHeight = this.scale.endPoint + 5
-				var targetCtx = document.getElementById("deviceChartAxis").getContext("2d")
-				targetCtx.canvas.width = copyWidth
-				targetCtx.drawImage(sourceCanvas, 0, 0, copyWidth, copyHeight, 0, 0, copyWidth, copyHeight)
-			}
-		})
+		var myDateLineChart = new Chart(ctx).Scatter(data, {
+			bezierCurve: true,
+			showTooltips: true,
+			scaleShowHorizontalLines: true,
+			scaleShowLabels: true,
+			scaleType: "date",
+			scaleLabel: "<%=value%>ug/m3"
+		});
 	}
 
 	onSaveClicked() {
@@ -125,7 +136,8 @@ class DevicePopup {
 
 		this.create = device.create
 		this.id = device._id
-		console.log(this)
+
+		const self = this
 	}
 
 	closeWindow() {

@@ -51,7 +51,7 @@ gulp.task('frontend:libs', () => {
 })
 
 gulp.task('frontend:js', () => {
-	return gulp.src('frontend/**/*.js')
+	return gulp.src('frontend/js/*.js')
 		.pipe(dependencies())
 		.pipe(sourcemaps.init())
 		.pipe(concat('main.js'))
