@@ -99,7 +99,6 @@ function refreshMyDevices() {
 
 	rest.getMyDevices(function(data) {
 		for (let k in data) {
-			console.log(data[k])
 			let b = $('<li data-icon="gear" class="device" data-id="' + data[k]['_id'] + '"><a>' +
 				data[k].name +
 				'</a></li>')

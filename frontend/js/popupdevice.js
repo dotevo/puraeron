@@ -26,27 +26,11 @@ var data = {
 	]
 }
 
-let initChart = true
-function refreshChart() {
-	if (!initChart) {
-		return
-	}
-	initChart = false
-	var ctx = document.getElementById("deviceChart").getContext("2d")
-	new Chart(ctx).Line(data, {
-		onAnimationComplete: function () {
-			let sourceCanvas = this.chart.ctx.canvas
-			let copyWidth = this.scale.xScalePaddingLeft - 5
-			var copyHeight = this.scale.endPoint + 5
-			var targetCtx = document.getElementById("deviceChartAxis").getContext("2d")
-			targetCtx.canvas.width = copyWidth
-			targetCtx.drawImage(sourceCanvas, 0, 0, copyWidth, copyHeight, 0, 0, copyWidth, copyHeight)
-		}
-	})
-}
+
 
 class DevicePopup {
 	constructor() {
+		this.initChart = true
 		this.minimap = L.map('minimap').setView([51.1098, 17.0351], 13)
 		const osmUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
 		const osm = new L.TileLayer(osmUrl, {
@@ -63,38 +47,55 @@ class DevicePopup {
 			activate: function(event, ui) {
 				$('#devicePopup').popup('reposition', {
 					'positionTo': 'window'})
-				refreshChart()
+				refreshChart(data)
 				self.minimap.invalidateSize()
 			}
 		})
 		$('#deviceClose').on('click', function() {
-			close()
+			closeWindow()
 		})
 
 		$('#deviceSave').on('click', this.onSaveClicked.bind(this))
 	}
 
+	refreshChart(data) {
+		if (!this.initChart) {
+			return
+		}
+		this.initChart = false
+		var ctx = document.getElementById("deviceChart").getContext("2d")
+		new Chart(ctx).Line(data, {
+			onAnimationComplete: function () {
+				let sourceCanvas = this.chart.ctx.canvas
+				let copyWidth = this.scale.xScalePaddingLeft - 5
+				var copyHeight = this.scale.endPoint + 5
+				var targetCtx = document.getElementById("deviceChartAxis").getContext("2d")
+				targetCtx.canvas.width = copyWidth
+				targetCtx.drawImage(sourceCanvas, 0, 0, copyWidth, copyHeight, 0, 0, copyWidth, copyHeight)
+			}
+		})
+	}
+
 	onSaveClicked() {
-		console.log(this)
-		console.log(this.create)
+		const self = this;
 		if (this.create == true) {
 			rest.createDevice({"password": $('#devicePass').val(),
 				"name": $('#deviceName').val(),
 				"loc":  [this.marker.getLatLng().lat, this.marker.getLatLng().lng]},
 				function(data){
+					console.log('s')
 					console.log(data)
-					close()
+					self.closeWindow()
 				})
 		} else {
 			let data = {}
 			data.loc = [this.marker.getLatLng().lat, this.marker.getLatLng().lng]
 			data.name = $('#deviceName').val()
-			console.log($('#devicePass').val())
 			if ($('#devicePass').val().length) {
 				data.password = $('#devicePass').val()
 			}
 			rest.updateDevice({id: this.id, data: data}, function(data) {
-				close()
+				self.closeWindow()
 			})
 			console.log('save')
 		}
@@ -127,7 +128,7 @@ class DevicePopup {
 		console.log(this)
 	}
 
-	close() {
+	closeWindow() {
 		$('#devicePopup').popup('close')
 	}
 }
