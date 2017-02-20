@@ -60,31 +60,22 @@ class DevicePopup {
 	}
 
 	refreshChart(d) {
-		$('#deviceChart').replaceWith('<canvas id="deviceChart" height="300" width="1200"></canvas>');
-		$('#deviceChartAxis').replaceWith('<canvas id="deviceChartAxis" height="300" width="0"></canvas>');
 		var data = [
-			{
-				label: "PM2.5",
-				fillColor: "rgba(220,220,220,0.2)",
-				strokeColor: "rgba(220,220,220,1)",
-				pointColor: "rgba(220,220,220,1)",
-				pointStrokeColor: "#fff",
-				pointHighlightFill: "#fff",
-				pointHighlightStroke: "rgba(220,220,220,1)",
-				data: []
-				}];
+		];
+
+		let values = {}
 		for (let k in d) {
-			data[0].data.push({x:new Date(d[k].date), y:d[k].values['pm25']})
+			for(let n in d[k].values) {
+				if(values[n] == null) {
+					data.push({x:[], y:[], name: n, yaxis: n, type: 'scatter'})
+					values[n] = data.length - 1
+				}
+				data[values[n]].x.push(new Date(d[k].date))
+				data[values[n]].y.push(d[k].values[n])
+			}
 		}
-		var ctx = document.getElementById("deviceChart").getContext("2d")
-		var myDateLineChart = new Chart(ctx).Scatter(data, {
-			bezierCurve: true,
-			showTooltips: true,
-			scaleShowHorizontalLines: true,
-			scaleShowLabels: true,
-			scaleType: "date",
-			scaleLabel: "<%=value%>ug/m3"
-		});
+
+		Plotly.newPlot('chartPlace', data)
 	}
 
 	onSaveClicked() {
